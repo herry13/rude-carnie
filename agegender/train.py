@@ -2,10 +2,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
+import sys
+sys.path.insert(0, os.path.realpath(os.path.dirname(__file__)))
+
 from six.moves import xrange
 from datetime import datetime
 import time
-import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.lib.io import file_io
@@ -21,7 +24,7 @@ tf.app.flags.DEFINE_string('pre_checkpoint_path', '',
                            """If specified, restore this pretrained model """
                            """before beginning any training.""")
 
-tf.app.flags.DEFINE_string('train_dir', '/home/dpressel/dev/work/AgeGenderDeepLearning/Folds/tf/test_fold_is_0',
+tf.app.flags.DEFINE_string('train_dir', 'gs://research-175022-ml/age_test_fold_is_0/',
                            'Training directory')
 
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
