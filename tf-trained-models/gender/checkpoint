@@ -1,0 +1,6 @@
+model_checkpoint_path: "/opt/AgeGenderDeepLearning/Folds/tf/gender_test_fold_is_0/run-402/checkpoint-29999"
+all_model_checkpoint_paths: "/opt/AgeGenderDeepLearning/Folds/tf/gender_test_fold_is_0/run-402/checkpoint-26000"
+all_model_checkpoint_paths: "/opt/AgeGenderDeepLearning/Folds/tf/gender_test_fold_is_0/run-402/checkpoint-27000"
+all_model_checkpoint_paths: "/opt/AgeGenderDeepLearning/Folds/tf/gender_test_fold_is_0/run-402/checkpoint-28000"
+all_model_checkpoint_paths: "/opt/AgeGenderDeepLearning/Folds/tf/gender_test_fold_is_0/run-402/checkpoint-29000"
+all_model_checkpoint_paths: "/opt/AgeGenderDeepLearning/Folds/tf/gender_test_fold_is_0/run-402/checkpoint-29999"
