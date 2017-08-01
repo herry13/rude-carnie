@@ -5,10 +5,10 @@ This is a forked of [Daniel Pressel's work](https://github.com/dpressel/rude-car
 gender classification on pictures.
 
 The training data (in TensorFlow format) for age and gender models are
-available in folder [tf-data](/herry13/tf-data).
+available in folder [tf-data](tf-data).
 
 The trained model for gender classification (after 29999 epochs) is available
-in folder [tf-trained-models/gender](/herry13/tf-trained-models/gender).
+in folder [tf-trained-models/gender](tf-trained-models/gender).
 
 _To come: trained model for age classification_.
 
