@@ -1,7 +1,7 @@
 Age and Gender Deep Learning with TensorFlow
 ============================================
 
-This is a forked of [Daniel Pressel's work](/dpressel/rude-carnie) on age and
+This is a forked of [Daniel Pressel's work](https://github.com/dpressel/rude-carnie) on age and
 gender classification on pictures.
 
 The training data (in TensorFlow format) for age and gender models are
