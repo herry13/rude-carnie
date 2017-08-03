@@ -31,6 +31,8 @@ $ python agegender/guess.py \
 ```
 $ python agegender/guess.py \
         --model_dir tf-trained-models/age \
+        --class_type age \
+        --requested_step 39999 \
         --filename photo.jpg
 ```
 
