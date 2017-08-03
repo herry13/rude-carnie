@@ -128,7 +128,7 @@ def _process_image(filename, coder):
 
     # Convert any PNG to JPEG's for consistency.
     if _is_png(filename):
-        print('Converting PNG to JPEG for %s' % filename)
+        tf.logging.info('Converting PNG to JPEG for %s' % filename)
         image_data = coder.png_to_jpeg(image_data)
 
     # Decode the RGB JPEG.
@@ -183,16 +183,16 @@ def _process_image_files_batch(coder, thread_index, ranges, name, filenames,
             counter += 1
 
             if not counter % 1000:
-                print('%s [thread %d]: Processed %d of %d images in thread batch.' %
+                tf.logging.info('%s [thread %d]: Processed %d of %d images in thread batch.' %
                       (datetime.now(), thread_index, counter, num_files_in_thread))
                 sys.stdout.flush()
 
         writer.close()
-        print('%s [thread %d]: Wrote %d images to %s' %
+        tf.logging.info('%s [thread %d]: Wrote %d images to %s' %
               (datetime.now(), thread_index, shard_counter, output_file))
         sys.stdout.flush()
         shard_counter = 0
-    print('%s [thread %d]: Wrote %d images to %d shards.' %
+    tf.logging.info('%s [thread %d]: Wrote %d images to %d shards.' %
           (datetime.now(), thread_index, counter, num_files_in_thread))
     sys.stdout.flush()
 
@@ -214,7 +214,7 @@ def _process_image_files(name, filenames, labels, num_shards):
         ranges.append([spacing[i], spacing[i+1]])
 
     # Launch a thread for each batch.
-    print('Launching %d threads for spacings: %s' % (FLAGS.num_threads, ranges))
+    tf.logging.info('Launching %d threads for spacings: %s' % (FLAGS.num_threads, ranges))
     sys.stdout.flush()
 
     # Create a mechanism for monitoring when all threads are finished.
@@ -231,12 +231,12 @@ def _process_image_files(name, filenames, labels, num_shards):
 
     # Wait for all the threads to terminate.
     coord.join(threads)
-    print('%s: Finished writing all %d images in data set.' %
+    tf.logging.info('%s: Finished writing all %d images in data set.' %
           (datetime.now(), len(filenames)))
     sys.stdout.flush()
 
 def _find_image_files(list_file, data_dir):
-    print('Determining list of input files and labels from %s.' % list_file)
+    tf.logging.info('Determining list of input files and labels from %s.' % list_file)
     files_labels = [l.strip().split(' ') for l in tf.gfile.FastGFile(
         list_file, 'r').readlines()]
 
@@ -264,7 +264,7 @@ def _find_image_files(list_file, data_dir):
     filenames = [filenames[i] for i in shuffled_index]
     labels = [labels[i] for i in shuffled_index]
     
-    print('Found %d JPEG files across %d labels inside %s.' %
+    tf.logging.info('Found %d JPEG files across %d labels inside %s.' %
           (len(filenames), len(unique_labels), data_dir))
     return filenames, labels
 
@@ -288,10 +288,10 @@ def main(unused_argv):
     assert not FLAGS.valid_shards % FLAGS.num_threads, (
         'Please make the FLAGS.num_threads commensurate with '
         'FLAGS.valid_shards')
-    print('Saving results to %s' % FLAGS.output_dir)
+    tf.logging.info('Saving results to %s' % FLAGS.output_dir)
 
     if os.path.exists(FLAGS.output_dir) is False:
-        print('creating %s' % FLAGS.output_dir)
+        tf.logging.info('creating %s' % FLAGS.output_dir)
         os.makedirs(FLAGS.output_dir)
 
     # Run it!
@@ -301,7 +301,7 @@ def main(unused_argv):
                      FLAGS.train_shards)
     
     if len(valid_outcomes) != len(valid_outcomes | train_outcomes):
-        print('Warning: unattested labels in training data [%s]' % (', '.join(valid_outcomes | train_outcomes) - valid_outcomes))
+        tf.logging.info('Warning: unattested labels in training data [%s]' % (', '.join(valid_outcomes | train_outcomes) - valid_outcomes))
         
     output_file = os.path.join(FLAGS.output_dir, 'md.json')
 

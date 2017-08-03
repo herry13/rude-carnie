@@ -22,7 +22,7 @@ class ObjectDetectorCascadeOpenCV(ObjectDetector):
         self.face_cascade = cv2.CascadeClassifier(model_name)
 
     def run(self, image_file):
-        print(image_file)
+        tf.logging.info(image_file)
         img = cv2.imread(image_file)
         min_h = int(max(img.shape[0] / self.min_height_dec, self.min_height_thresh))
         min_w = int(max(img.shape[1] / self.min_width_dec, self.min_width_thresh))
@@ -33,7 +33,7 @@ class ObjectDetectorCascadeOpenCV(ObjectDetector):
         for i, (x, y, w, h) in enumerate(faces):
             images.append(self.sub_image('%s/%s-%d.jpg' % (self.tgtdir, self.basename, i + 1), img, x, y, w, h))
 
-        print('%d faces detected' % len(images))
+        tf.logging.info('%d faces detected' % len(images))
 
         for (x, y, w, h) in faces:
             self.draw_rect(img, x, y, w, h)

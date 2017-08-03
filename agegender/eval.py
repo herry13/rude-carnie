@@ -111,7 +111,7 @@ def eval_once(saver, summary_writer, summary_op, logits, labels, num_eval, reque
             true_count1 = true_count2 = 0
             total_sample_count = num_steps * FLAGS.batch_size
             step = 0
-            print(FLAGS.batch_size, num_steps)
+            tf.logging.info(FLAGS.batch_size, num_steps)
 
             while step < num_steps and not coord.should_stop():
                 start_time = time.time()
@@ -123,7 +123,7 @@ def eval_once(saver, summary_writer, summary_op, logits, labels, num_eval, reque
                 true_count1 += np.sum(predictions1)
                 true_count2 += np.sum(predictions2)
                 format_str = ('%s (%.1f examples/sec; %.3f sec/batch)')
-                print(format_str % (datetime.now(),
+                tf.logging.info(format_str % (datetime.now(),
                                     examples_per_sec, sec_per_batch))
 
                 step += 1
@@ -132,8 +132,8 @@ def eval_once(saver, summary_writer, summary_op, logits, labels, num_eval, reque
 
             precision1 = true_count1 / total_sample_count
             precision2 = true_count2 / total_sample_count
-            print('%s: precision @ 1 = %.3f (%d/%d)' % (datetime.now(), precision1, true_count1, total_sample_count))
-            print('%s: precision @ 2 = %.3f (%d/%d)' % (datetime.now(), precision2, true_count2, total_sample_count))
+            tf.logging.info('%s: precision @ 1 = %.3f (%d/%d)' % (datetime.now(), precision1, true_count1, total_sample_count))
+            tf.logging.info('%s: precision @ 2 = %.3f (%d/%d)' % (datetime.now(), precision2, true_count2, total_sample_count))
 
             summary = tf.Summary()
             summary.ParseFromString(sess.run(summary_op))
@@ -149,7 +149,7 @@ def eval_once(saver, summary_writer, summary_op, logits, labels, num_eval, reque
 def evaluate(run_dir):
     with tf.Graph().as_default() as g:
         input_file = os.path.join(FLAGS.train_dir, 'md.json')
-        print(input_file)
+        tf.logging.info(input_file)
         with open(input_file, 'r') as f:
             md = json.load(f)
 
@@ -160,7 +160,7 @@ def evaluate(run_dir):
 
 
         with tf.device(FLAGS.device_id):
-            print('Executing on %s' % FLAGS.device_id)
+            tf.logging.info('Executing on %s' % FLAGS.device_id)
             images, labels, _ = inputs(FLAGS.train_dir, FLAGS.batch_size, FLAGS.image_size, train=not eval_data, num_preprocess_threads=FLAGS.num_preprocess_threads)
             logits = model_fn(md['nlabels'], images, 1, False)
             summary_op = tf.summary.merge_all()
@@ -171,11 +171,11 @@ def evaluate(run_dir):
             if FLAGS.requested_step_seq:
                 sequence = FLAGS.requested_step_seq.split(',')
                 for requested_step in sequence:
-                    print('Running %s' % sequence)
+                    tf.logging.info('Running %s' % sequence)
                     eval_once(saver, summary_writer, summary_op, logits, labels, num_eval, requested_step)
             else:
                 while True:
-                    print('Running loop')
+                    tf.logging.info('Running loop')
                     eval_once(saver, summary_writer, summary_op, logits, labels, num_eval)
                     if FLAGS.run_once:
                         break

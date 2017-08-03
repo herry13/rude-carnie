@@ -74,12 +74,12 @@ def main(argv=None):
 
             saver = tf.train.Saver()
             saver.restore(sess, model_checkpoint_path)
-            print('Restored model checkpoint %s' % model_checkpoint_path)
+            tf.logging.info('Restored model checkpoint %s' % model_checkpoint_path)
 
             output_path = os.path.join(
                 tf.compat.as_bytes(FLAGS.output_dir),
                 tf.compat.as_bytes(str(FLAGS.model_version)))
-            print('Exporting trained model to %s' % output_path)
+            tf.logging.info('Exporting trained model to %s' % output_path)
             builder = tf.saved_model.builder.SavedModelBuilder(output_path)
 
             # Build the signature_def_map.
@@ -127,7 +127,7 @@ def main(argv=None):
                 legacy_init_op=legacy_init_op)
             
             builder.save()
-            print('Successfully exported model to %s' % FLAGS.output_dir)
+            tf.logging.info('Successfully exported model to %s' % FLAGS.output_dir)
 
 if __name__ == '__main__':
     tf.app.run()

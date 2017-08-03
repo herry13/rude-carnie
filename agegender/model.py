@@ -18,12 +18,12 @@ TOWER_NAME = 'tower'
 
 def select_model(name):
     if name.startswith('inception'):
-        print('selected (fine-tuning) inception model')
+        tf.logging.info('selected (fine-tuning) inception model')
         return inception_v3
     elif name == 'bn':
-        print('selected batch norm model')
+        tf.logging.info('selected batch norm model')
         return levi_hassner_bn
-    print('selected default model')
+    tf.logging.info('selected default model')
     return levi_hassner
 
 
@@ -32,21 +32,21 @@ def get_checkpoint(checkpoint_path, requested_step=None, basename='checkpoint'):
 
         model_checkpoint_path = '%s/%s-%s' % (checkpoint_path, basename, requested_step)
         if os.path.exists(model_checkpoint_path) is None:
-            print('No checkpoint file found at [%s]' % checkpoint_path)
+            tf.logging.info('No checkpoint file found at [%s]' % checkpoint_path)
             exit(-1)
-            print(model_checkpoint_path)
-        print(model_checkpoint_path)
+            tf.logging.info(model_checkpoint_path)
+        tf.logging.info(model_checkpoint_path)
         return model_checkpoint_path, requested_step
 
     ckpt = tf.train.get_checkpoint_state(checkpoint_path)
     if ckpt and ckpt.model_checkpoint_path:
         # Restore checkpoint as described in top of this program
-        print(ckpt.model_checkpoint_path)
+        tf.logging.info(ckpt.model_checkpoint_path)
         global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
 
         return ckpt.model_checkpoint_path, global_step
     else:
-        print('No checkpoint file found at [%s]' % checkpoint_path)
+        tf.logging.info('No checkpoint file found at [%s]' % checkpoint_path)
         exit(-1)
 
 def _activation_summary(x):

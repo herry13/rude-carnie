@@ -26,14 +26,14 @@ def data_files(data_dir, subset):
       ValueError: if there are not data_files matching the subset.
     """
     if subset not in ['train', 'validation']:
-        print('Invalid subset!')
+        tf.logging.info('Invalid subset!')
         exit(-1)
 
     tf_record_pattern = os.path.join(data_dir, '%s-*' % subset)
     data_files = tf.gfile.Glob(tf_record_pattern)
-    print(data_files)
+    tf.logging.info(data_files)
     if not data_files:
-      print('No files found for data dir %s at %s' % (subset, data_dir))
+      tf.logging.info('No files found for data dir %s at %s' % (subset, data_dir))
 
       exit(-1)
     return data_files

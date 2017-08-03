@@ -103,10 +103,10 @@ class YOLOBase(ObjectDetector):
         for i, (x, y, w, h, p) in enumerate(faces):
             images.append(self.sub_image('%s/%s-%d.jpg' % (self.tgtdir, self.basename, i + 1), img, x, y, w, h))
 
-        print('%d faces detected' % len(images))
+        tf.logging.info('%d faces detected' % len(images))
 
         for (x, y, w, h, p) in faces:
-            print('Face found [%d, %d, %d, %d] (%.2f)' % (x, y, w, h, p));
+            tf.logging.info('Face found [%d, %d, %d, %d] (%.2f)' % (x, y, w, h, p));
             self.draw_rect(img, x, y, w, h)
             # Fix in case nothing found in the image
         outfile = '%s/%s.jpg' % (self.tgtdir, self.basename)

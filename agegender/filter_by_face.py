@@ -30,7 +30,7 @@ def list_images(srcfile):
         delim = ',' if srcfile.endswith('.csv') else '\t'
         reader = csv.reader(csvfile, delimiter=delim)
         if srcfile.endswith('.csv') or srcfile.endswith('.tsv'):
-            print('skipping header')
+            tf.logging.info('skipping header')
             _ = next(reader)
         
         return [row[0] for row in reader]
@@ -43,7 +43,7 @@ def main(argv=None):  # pylint: disable=unused-argument
 
     target = FLAGS.target = '%s.csv' % FLAGS.face_detection_type if FLAGS.target is None else FLAGS.target
 
-    print('Creating output file %s' % target)
+    tf.logging.info('Creating output file %s' % target)
     output = open(target, 'w')
     writer = csv.writer(output)
     writer.writerow(('file_with_face',))
@@ -53,7 +53,7 @@ def main(argv=None):  # pylint: disable=unused-argument
             for relpath in os.listdir(FLAGS.filename):
                 abspath = os.path.join(FLAGS.filename, relpath)
                 if os.path.isfile(abspath) and any([abspath.endswith('.' + ty) for ty in ('jpg', 'png', 'JPG', 'PNG', 'jpeg')]):
-                    print(abspath)
+                    tf.logging.info(abspath)
                     files.append(abspath)
         elif any([FLAGS.filename.endswith('.' + ty) for ty in ('csv', 'tsv', 'txt')]):
             files = list_images(FLAGS.filename)
@@ -64,13 +64,13 @@ def main(argv=None):  # pylint: disable=unused-argument
         try:
             images, outfile = fd.run(f)
             if len(images):
-                print(f, 'YES')
+                tf.logging.info(f, 'YES')
                 writer.writerow((f,))
                 contains_faces.append(f)
             else:
-                print(f, 'NO')
+                tf.logging.info(f, 'NO')
         except Exception as e:
-            print(e)
+            tf.logging.info(e)
 
 if __name__=='__main__':
     tf.app.run()

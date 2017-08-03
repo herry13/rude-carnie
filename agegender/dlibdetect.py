@@ -12,7 +12,7 @@ class FaceDetectorDlib(ObjectDetector):
         self.predictor = dlib.shape_predictor(model_name)
 
     def run(self, image_file):
-        print(image_file)
+        tf.logging.info(image_file)
         img = cv2.imread(image_file)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = self.detector(gray, 1)
@@ -26,7 +26,7 @@ class FaceDetectorDlib(ObjectDetector):
             bb.append((x,y,w,h))
             images.append(self.sub_image('%s/%s-%d.jpg' % (self.tgtdir, self.basename, i + 1), img, x, y, w, h))
 
-        print('%d faces detected' % len(images))
+        tf.logging.info('%d faces detected' % len(images))
 
         for (x, y, w, h) in bb:
             self.draw_rect(img, x, y, w, h)

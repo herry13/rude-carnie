@@ -72,7 +72,7 @@ FLAGS = tf.app.flags.FLAGS
 
 # Every 5k steps cut learning rate in half
 def exponential_staircase_decay(at_step=10000, decay_rate=0.1):
-    tf.logging.info('decay [%f] every [%d] steps' % (decay_rate, at_step))
+    tf.logging.info(('decay [%f] every [%d] steps' % (decay_rate, at_step))
     def _decay(lr, global_step):
         return tf.train.exponential_decay(lr, global_step,
                                           at_step, decay_rate, staircase=True)
@@ -116,7 +116,7 @@ def main(argv=None):
         model_fn = select_model(FLAGS.model_type)
         # Open the metadata file and figure out nlabels, and size of epoch
         input_file = os.path.join(FLAGS.train_dir, 'md.json')
-        tf.logging.info('read file %s' % input_file)
+        tf.logging.info(('read file %s' % input_file)
         with file_io.FileIO(input_file, mode='r') as f:
             md = json.load(f)
 
@@ -142,10 +142,10 @@ def main(argv=None):
 
         if FLAGS.pre_checkpoint_path:
             if tf.gfile.Exists(FLAGS.pre_checkpoint_path) is True:
-                tf.logging.info('Trying to restore checkpoint from %s' % FLAGS.pre_checkpoint_path)
+                tf.logging.info(('Trying to restore checkpoint from %s' % FLAGS.pre_checkpoint_path)
                 restorer = tf.train.Saver()
                 tf.train.latest_checkpoint(FLAGS.pre_checkpoint_path)
-                tf.logging.info('%s: Pre-trained model restored from %s' %
+                tf.logging.info(('%s: Pre-trained model restored from %s' %
                       (datetime.now(), FLAGS.pre_checkpoint_path))
 
 
@@ -153,7 +153,7 @@ def main(argv=None):
 
         checkpoint_path = '%s/%s' % (run_dir, FLAGS.checkpoint)
         if tf.gfile.Exists(run_dir) is False:
-            tf.logging.info('Creating %s' % run_dir)
+            tf.logging.info(('Creating %s' % run_dir)
             tf.gfile.MakeDirs(run_dir)
 
         tf.train.write_graph(sess.graph_def, run_dir, 'model.pb', as_text=True)
@@ -164,7 +164,7 @@ def main(argv=None):
         summary_writer = tf.summary.FileWriter(run_dir, sess.graph)
         steps_per_train_epoch = int(md['train_counts'] / FLAGS.batch_size)
         num_steps = FLAGS.max_steps if FLAGS.epochs < 1 else FLAGS.epochs * steps_per_train_epoch
-        tf.logging.info('Requested number of steps [%d]' % num_steps)
+        tf.logging.info(('Requested number of steps [%d]' % num_steps)
 
         
         for step in xrange(num_steps):
@@ -180,7 +180,7 @@ def main(argv=None):
                 sec_per_batch = float(duration)
                 
                 format_str = ('%s: step %d, loss = %.3f (%.1f examples/sec; %.3f ' 'sec/batch)')
-                tf.logging.info(format_str % (datetime.now(), step, loss_value,
+                tf.logging.info((format_str % (datetime.now(), step, loss_value,
                                     examples_per_sec, sec_per_batch))
 
             # Loss only actually evaluated every 100 steps?

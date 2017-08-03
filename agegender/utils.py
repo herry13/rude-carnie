@@ -52,7 +52,7 @@ class ProgressBar(object):
     def done(self):
         self.current = self.total
         self.update(step=0)
-        print('')
+        tf.logging.info('')
 
 # Read image files            
 class ImageCoder(object):
@@ -110,7 +110,7 @@ def make_multi_image_batch(filenames, coder):
             image_data = f.read()
         # Convert any PNG to JPEG's for consistency.
         if _is_png(filename):
-            print('Converting PNG to JPEG for %s' % filename)
+            tf.logging.info('Converting PNG to JPEG for %s' % filename)
             image_data = coder.png_to_jpeg(image_data)
     
         image = coder.decode_jpeg(image_data)
@@ -135,13 +135,13 @@ def make_multi_crop_batch(filename, coder):
 
     # Convert any PNG to JPEG's for consistency.
     if _is_png(filename):
-        print('Converting PNG to JPEG for %s' % filename)
+        tf.logging.info('Converting PNG to JPEG for %s' % filename)
         image_data = coder.png_to_jpeg(image_data)
     
     image = coder.decode_jpeg(image_data)
 
     crops = []
-    print('Running multi-cropped image')
+    tf.logging.info('Running multi-cropped image')
     h = image.shape[0]
     w = image.shape[1]
     hl = h - RESIZE_FINAL
