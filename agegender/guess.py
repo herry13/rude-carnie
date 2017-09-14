@@ -16,7 +16,7 @@ import csv
 import timeit
 import logging
 
-RESIZE_FINAL = 227
+RESIZE_FINAL = 160
 GENDER_LIST =['M','F']
 AGE_LIST = ['(0, 2)','(4, 6)','(8, 12)','(15, 20)','(25, 32)','(38, 43)','(48, 53)','(60, 100)']
 MAX_BATCH_SZ = 128

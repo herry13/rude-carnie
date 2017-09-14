@@ -14,7 +14,7 @@ from detect import *
 import re
 
 RESIZE_AOI = 256
-RESIZE_FINAL = 227
+RESIZE_FINAL = 160
 
 # Modifed from here
 # http://stackoverflow.com/questions/3160699/python-progress-bar#3160819

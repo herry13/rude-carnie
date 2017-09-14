@@ -12,6 +12,9 @@ from distutils.version import LooseVersion
 
 VERSION_GTE_0_12_0 = LooseVersion(tf.__version__) >= LooseVersion('0.12.0')
 
+BATCH_SIZE = 128
+IMAGE_SIZE = 160
+
 # Name change in TF v 0.12.0
 if VERSION_GTE_0_12_0:
     standardize_image = tf.image.per_image_standardization
@@ -216,7 +219,7 @@ def batch_inputs(data_dir, batch_size, image_size, train, num_preprocess_threads
 
     return images, tf.reshape(label_index_batch, [batch_size]), fnames
 
-def inputs(data_dir, batch_size=128, image_size=227, train=False, num_preprocess_threads=4):
+def inputs(data_dir, batch_size=BATCH_SIZE, image_size=IMAGE_SIZE, train=False, num_preprocess_threads=4):
     with tf.device('/cpu:0'):
         images, labels, filenames = batch_inputs(
             data_dir, batch_size, image_size, train,
@@ -224,7 +227,7 @@ def inputs(data_dir, batch_size=128, image_size=227, train=False, num_preprocess
             num_readers=1)
     return images, labels, filenames
 
-def distorted_inputs(data_dir, batch_size=128, image_size=227, num_preprocess_threads=4):
+def distorted_inputs(data_dir, batch_size=BATCH_SIZE, image_size=IMAGE_SIZE, num_preprocess_threads=4):
 
   # Force all input processing onto CPU in order to reserve the GPU for
   # the forward inference and back-propagation.

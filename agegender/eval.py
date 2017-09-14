@@ -64,7 +64,7 @@ tf.app.flags.DEFINE_integer('num_examples', 10000,
 tf.app.flags.DEFINE_boolean('run_once', False,
                          """Whether to run eval only once.""")
 
-tf.app.flags.DEFINE_integer('image_size', 227,
+tf.app.flags.DEFINE_integer('image_size', 160,
                             'Image size')
 
 tf.app.flags.DEFINE_integer('batch_size', 128,
